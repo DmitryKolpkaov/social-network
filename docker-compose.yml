@@ -1,0 +1,56 @@
+version: '3.2'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3308:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=very_secret
+      - MYSQL_DATABASE=my_database
+      - MYSQL_USER=my_user
+      - MYSQL_PASSWORD=secret
+    volumes:
+      #data storage
+      - ./storage/db/mysql:/var/lib/mysql
+
+  php8:
+    build: ./docker/php/
+    # X-debug
+    environment:
+      - PHP_ENABLE_XDEBUG=1
+    volumes:
+      # Re-use local composer cache via host-volume
+      #- ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/var/www/app
+      # X-debug
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    working_dir: /var/www/app
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 21080:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      #- ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/var/www/app/
+      # Configs
+      - ./docker/nginx/:/etc/nginx/conf.d
+      # Logs
+      - ./storage/log/nginx:/var/log/nginx/
+    links:
+      - php8
+      - mysql
+    depends_on:
+      - php8
+      - mysql
+
+
