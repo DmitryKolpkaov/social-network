@@ -1,11 +1,13 @@
 <div class="media">
-{{--    <img src="/" alt="ava">--}}
     <div class="media-body">
-        <h5 class="mt-0">
+        <a href="">
+            <img class="" src="{{$user->getAvatarUrl()}}" alt="ava">
+        </a>
+        <h5 class="mt-0 mb-3">
             <a href="">{{$user->getNameOrUsername()}}</a>
         </h5>
         @if($user->location)
-            <h6>{{$user->location}}</h6>
+            <p class="mt-0">{{$user->location}}</p>
         @endif
     </div>
 </div>
