@@ -25,3 +25,5 @@ Route::post('/signup', 'App\Http\Controllers\AuthController@postSignup');
 
 Route::get('/signin', 'App\Http\Controllers\AuthController@getSignin')->name('auth.signin');
 Route::post('/signin', 'App\Http\Controllers\AuthController@postSignin');
+
+Route::get('/signout', 'App\Http\Controllers\AuthController@getSignout')->name('auth.signout');

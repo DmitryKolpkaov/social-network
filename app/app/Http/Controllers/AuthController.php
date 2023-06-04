@@ -53,4 +53,11 @@ class AuthController extends Controller
             ->route('home')
             ->with('info', 'Авторизация прошла успешно.');
     }
+
+    public function getSignout()
+    {
+        Auth::logout();
+
+        return redirect()->route('home');
+    }
 }
