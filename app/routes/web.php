@@ -19,6 +19,9 @@ Route::get('/alert', function(){
     return redirect()->route('home')->with('info', 'Вы можете войти!');
 });
 
-//Авторизация
+//Регистрация и авторизация
 Route::get('/signup', 'App\Http\Controllers\AuthController@getSignup')->name('auth.signup');
 Route::post('/signup', 'App\Http\Controllers\AuthController@postSignup');
+
+Route::get('/signin', 'App\Http\Controllers\AuthController@getSignin')->name('auth.signin');
+Route::post('/signin', 'App\Http\Controllers\AuthController@postSignin');

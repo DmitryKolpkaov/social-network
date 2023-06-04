@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -29,5 +30,27 @@ class AuthController extends Controller
         return redirect()
             ->route('home')
             ->with('info', 'Регистрация прошла успешно!');
+    }
+
+    public function getSignin()
+    {
+        return view('auth.signin');
+    }
+
+    public function postSignin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|max:255',
+            'password' => 'required|min:8'
+        ]);
+
+        if(!Auth::attempt($request->only(['email', 'password']),$request->has('remember'))){
+            return redirect()
+                ->back()
+                ->with('info', 'Неправильно указан email или пароль.');
+        }
+        return redirect()
+            ->route('home')
+            ->with('info', 'Авторизация прошла успешно.');
     }
 }
