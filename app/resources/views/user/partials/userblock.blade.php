@@ -7,7 +7,7 @@
             <a href="{{route('profile.index', ['username'=>$user->username])}}">{{$user->getNameOrUsername()}}</a>
         </h5>
         @if($user->location)
-            <p class="mt-0 h6"><span class="h5">Город: </span>{{$user->location}}</p>
+            <p class="mt-0 h6"><span class="h5">Локация: </span>{{$user->location}}</p>
         @endif
     </div>
 </div>
