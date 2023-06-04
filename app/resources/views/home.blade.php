@@ -1,5 +1,5 @@
 @extends('templates.default')
 
 @section('content')
-    Home
+    Добро пожаловать!
 @endsection

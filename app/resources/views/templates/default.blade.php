@@ -10,8 +10,8 @@
 </head>
 <body>
 @include('templates.partials.navigation')
-
 <div class="container">
+    @include('templates.partials.alerts')
     @yield('content')
 </div>
 
