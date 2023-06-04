@@ -20,10 +20,10 @@ Route::get('/alert', function(){
 });
 
 //Регистрация и авторизация
-Route::get('/signup', 'App\Http\Controllers\AuthController@getSignup')->name('auth.signup');
-Route::post('/signup', 'App\Http\Controllers\AuthController@postSignup');
+Route::get('/signup', 'App\Http\Controllers\AuthController@getSignup')->middleware('guest')->name('auth.signup');
+Route::post('/signup', 'App\Http\Controllers\AuthController@postSignup')->middleware('guest');
 
-Route::get('/signin', 'App\Http\Controllers\AuthController@getSignin')->name('auth.signin');
-Route::post('/signin', 'App\Http\Controllers\AuthController@postSignin');
+Route::get('/signin', 'App\Http\Controllers\AuthController@getSignin')->middleware('guest')->name('auth.signin');
+Route::post('/signin', 'App\Http\Controllers\AuthController@postSignin')->middleware('guest');
 
 Route::get('/signout', 'App\Http\Controllers\AuthController@getSignout')->name('auth.signout');
