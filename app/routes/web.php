@@ -31,3 +31,6 @@ Route::get('/signout', 'App\Http\Controllers\AuthController@getSignout')->name('
 
 //Поиск
 Route::get('/search', 'App\Http\Controllers\SearchController@getResults')->name('search.results');
+
+//Профили
+Route::get('/user/{username}', 'App\Http\Controllers\ProfileController@getProfile')->name('profile.index');

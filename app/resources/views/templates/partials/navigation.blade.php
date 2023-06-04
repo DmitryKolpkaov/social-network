@@ -22,7 +22,8 @@
             <ul class="navbar-nav ml-auto">
                 @if(Auth::check())
                     <li class="nav-item">
-                        <a href="" class="nav-link">{{Auth::user()->getNameOrUsername()}}</a>
+                        <a href="{{route('profile.index', ['username'=> Auth::user()->username])}}"
+                           class="nav-link">{{Auth::user()->getNameOrUsername()}}</a>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">Обновить профиль</a>
