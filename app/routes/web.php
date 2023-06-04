@@ -27,3 +27,7 @@ Route::get('/signin', 'App\Http\Controllers\AuthController@getSignin')->middlewa
 Route::post('/signin', 'App\Http\Controllers\AuthController@postSignin')->middleware('guest');
 
 Route::get('/signout', 'App\Http\Controllers\AuthController@getSignout')->name('auth.signout');
+
+
+//Поиск
+Route::get('/search', 'App\Http\Controllers\SearchController@getResults')->name('search.results');
