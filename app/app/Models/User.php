@@ -6,9 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Status;
 
 class User extends Authenticatable
 {
@@ -94,6 +96,16 @@ class User extends Authenticatable
     public function getAvatarUrl()
     {
         return "https://www.gravatar.com/avatar/{{md5($this->email)?d=wavatar&s=60}}";
+    }
+
+    /**
+     * Пользователю пренадлежит статус
+     *
+     * @return HasMany
+     */
+    public function statuses()
+    {
+        return $this->hasMany('App\Models\Status', 'user_id');
     }
 
     //Друзья
