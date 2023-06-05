@@ -38,3 +38,7 @@ Route::post('/profile/edit}', 'App\Http\Controllers\ProfileController@postEdit')
 
 //Друзья
 Route::get('/friends', 'App\Http\Controllers\FriendController@getIndex')->middleware('auth')->name('friend.index');
+Route::get('/friends/add/{username}', 'App\Http\Controllers\FriendController@getAdd')->middleware('auth')->name('friend.add');
+Route::get('/friends/accept/{username}', 'App\Http\Controllers\FriendController@getAccept')->middleware('auth')->name('friend.accept');
+Route::post('/friends/delete/{username}', 'App\Http\Controllers\FriendController@postDelete')->middleware('auth')->name('friend.delete');
+
