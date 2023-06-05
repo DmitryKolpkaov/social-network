@@ -11,7 +11,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Стена</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Друзья</a>
+                        <a class="nav-link" href="{{route('friend.index')}}">Друзья</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search" method="get" action="{{route('search.results')}}">
