@@ -108,6 +108,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Status', 'user_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany('App\Models\Like', 'user_id');
+    }
+
     //Друзья
 
     /**
@@ -243,6 +248,16 @@ class User extends Authenticatable
     {
         return (bool) $this->friends()
             ->where('id', $user->id)
+            ->count();
+    }
+
+    //Like
+    public function hasLikedStatus(Status $status)
+    {
+        return (bool) $status->likes()
+            ->where('likeable_id', $status->id)
+            ->where('likeable_type', get_class($status))
+            ->where('user_id', $this->id)
             ->count();
     }
 }

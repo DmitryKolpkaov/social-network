@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Status extends Model
 {
@@ -27,5 +28,15 @@ class Status extends Model
     public function replies()
     {
         return $this->hasMany('App\Models\Status', 'parent_id');
+    }
+
+    /**
+     * Получить все лайки к записи
+     *
+     * @return MorphMany
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Models\Like', 'likeable');
     }
 }

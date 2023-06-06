@@ -38,15 +38,21 @@
                                 </a>
                             </h4>
                             <p>{{$status->body}}</p>
-                            <ul class="list-inline">
+                            <ul class="list-inline border pl-10">
                                 <li class="list-inline-item">
                                     {{$status->created_at->diffForHumans()}}
                                 </li>
-                                <li class="list-inline-item">
-                                    <a href="">Лайк</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    10 лайков
+                                @if($status->user->id !== Auth::user()->id)
+                                    <li class="list-inline-item" data-bs-placement="top" title="Like">
+                                        <a href="{{route('status.like', ['statusId'=>$status->id])}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                                                <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                @endif
+                                <li class="list-inline-item pl-10">
+                                    {{$status->likes()->count()}} {{Str::plural('like', $status->likes()->count())}}
                                 </li>
                             </ul>
 
@@ -65,15 +71,21 @@
                                                 </a>
                                             </h4>
                                             <p>{{$reply->body}}</p>
-                                            <ul class="list-inline">
+                                            <ul class="list-inline border pl-10">
                                                 <li class="list-inline-item">
                                                     {{$reply->created_at->diffForHumans()}}
                                                 </li>
-                                                <li class="list-inline-item">
-                                                    <a href="">Лайк</a>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    10 лайков
+                                                @if($reply->user->id !== Auth::user()->id)
+                                                    <li class="list-inline-item" data-bs-placement="top" title="Like">
+                                                        <a href="{{route('status.like', ['statusId'=>$reply->id])}}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                                                                <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+                                                            </svg>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                <li class="list-inline-item pl-10">
+                                                    {{$reply->likes()->count()}} {{Str::plural('like', $reply->likes()->count())}}
                                                 </li>
                                             </ul>
                                         </div>
