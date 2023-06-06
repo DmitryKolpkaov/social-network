@@ -49,12 +49,53 @@
                                     10 лайков
                                 </li>
                             </ul>
-                            <form method="post" action="" class="mb-4">
+
+                            <div class="mb-3 ml-10">
+                                @foreach($status->replies as $reply)
+                                    <div class="media d-flex p-3 border">
+                                        <a class="mr-3" href="{{route('profile.index', ['username'=>$reply->user->username])}}">
+                                            <img class="media-object rounded"
+                                                 src="{{$reply->user->getAvatarUrl()}}"
+                                                 alt="{{$reply->user->getNameOrUsername()}}">
+                                        </a>
+                                        <div class="media-body pl-10">
+                                            <h4>
+                                                <a href="{{route('profile.index', ['username'=>$reply->user->username])}}">
+                                                    {{$reply->user->getNameOrUsername()}}
+                                                </a>
+                                            </h4>
+                                            <p>{{$reply->body}}</p>
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    {{$reply->created_at->diffForHumans()}}
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="">Лайк</a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    10 лайков
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <form method="post"
+                                  action="{{route('status.reply', ['statusId' => $status->id])}}"
+                                  class="mb-4">
                                 @csrf
                                 <div class="form-group">
-                                    <textarea name="status" rows="3" class="form-control" placeholder="Прокоментировать"></textarea>
+                                    <textarea name="reply-{{$status->id}}" rows="3"
+                                              class="form-control {{$errors->has("reply-{$status->id}") ? 'is-invalid' : ''}}"
+                                              placeholder="Прокомментировать."></textarea>
+                                    @if($errors->has("reply-{$status->id}"))
+                                        <div class="invalid-feedback">
+                                            {{$errors->first("reply-{$status->id}")}}
+                                        </div>
+                                    @endif
                                 </div>
-                                <input type="submit" class="btn btn-primary btn-sm mt-3" value="Ответить">
+                                <button type="submit" class="btn btn-primary btn-sm mt-3">Прокомментировать</button>
                             </form>
                         </div>
                     </div>

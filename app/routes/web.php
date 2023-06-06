@@ -42,3 +42,4 @@ Route::post('/friends/delete/{username}', 'App\Http\Controllers\FriendController
 
 //Стена
 Route::post('/status', 'App\Http\Controllers\StatusController@postStatus')->middleware('auth')->name('status.post');
+Route::post('/status/{statusId}/reply', 'App\Http\Controllers\StatusController@postReply')->middleware('auth')->name('status.reply');
