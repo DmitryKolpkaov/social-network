@@ -1,14 +1,16 @@
 @extends('templates.default')
-
+{{--Посты на странице профиля.--}}
 @section('content')
     <div class="row">
         <div class="col-lg-5">
             <div class="mt-5">
                 @include('user.partials.userblock')
                 <hr>
+                {{--Если не создал запись на стене, она не отобразится--}}
                 @if(!$statuses->count())
                     <p>У {{$user->getFirstNameOrUsername()}} ничего не опубликовано</p>
                 @else
+                    {{--Перебор записей--}}
                     @foreach($statuses as $status)
                         <div class="media">
                             <a class="mr-3" href="{{route('profile.index', ['username'=>$status->user->username])}}">
@@ -40,8 +42,8 @@
                                         {{$status->likes()->count()}} {{Str::plural('like', $status->likes()->count())}}
                                     </li>
                                 </ul>
-
                                 <div class="mb-3 ml-10">
+                                    {{--Перебор комментариев--}}
                                     @foreach($status->replies as $reply)
                                         <div class="media d-flex p-3 border">
                                             <a class="mr-3" href="{{route('profile.index', ['username'=>$reply->user->username])}}">
@@ -60,6 +62,7 @@
                                                     <li class="list-inline-item">
                                                         {{$reply->created_at->diffForHumans()}}
                                                     </li>
+                                                    {{--Ставим лайки--}}
                                                     @if($reply->user->id !== Auth::user()->id)
                                                         <li class="list-inline-item" data-bs-placement="top" title="Like">
                                                             <a href="{{route('status.like', ['statusId'=>$reply->id])}}">
@@ -73,10 +76,16 @@
                                                         {{$reply->likes()->count()}} {{Str::plural('like', $reply->likes()->count())}}
                                                     </li>
                                                 </ul>
+{{--                                                @if(Auth::user()->id === $status->user->id)--}}
+{{--                                                    <a href="{{route('status.edit')}}">--}}
+{{--                                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Редактировать комментарий</button>--}}
+{{--                                                    </a>--}}
+{{--                                                @endif--}}
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
+                                {{--Если друг или пользователь создавший эту запись, то можно оставить комментарий--}}
                                 @if($authUserIsFriend || Auth::user()->id === $status->user->id)
                                     <form method="post"
                                           action="{{route('status.reply', ['statusId' => $status->id])}}"
@@ -93,11 +102,6 @@
                                             @endif
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-sm mt-3">Прокомментировать</button>
-{{--                                        @if(Auth::user()->id === $status->user->id)--}}
-{{--                                            <a href="">--}}
-{{--                                                <button type="submit" class="btn btn-primary btn-sm mt-3">Редактировать</button>--}}
-{{--                                            </a>--}}
-{{--                                        @endif--}}
                                     </form>
                                 @endif
                             </div>
@@ -106,6 +110,7 @@
                 @endif
             </div>
         </div>
+        {{--Дружба--}}
         <div class="col-lg-4 col-lg-offset-3 mt-3">
             @if(Auth::user()->hasFriendRequestPending($user))
                 <p class="mt-5">

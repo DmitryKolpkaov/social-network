@@ -1,8 +1,9 @@
 @extends('templates.default')
-
+{{--Вывод всех записей и комментариев на стене и главной странице--}}
 @section('content')
     <div class="row">
         <div class="col-lg-6 mt-5">
+            {{--Создание записи--}}
             <form method="post" action="{{route('status.post')}}">
                 @csrf
                 <div class="form-group">
@@ -24,6 +25,7 @@
             @if(!$statuses->count())
                 <p>Нет не одной записи на стене.</p>
             @else
+                {{--Перебор записей--}}
                 @foreach($statuses as $status)
                     <div class="media">
                         <a class="mr-3" href="{{route('profile.index', ['username'=>$status->user->username])}}">
@@ -57,6 +59,7 @@
                             </ul>
 
                             <div class="mb-3 ml-10">
+                                {{--Перебор комментариев--}}
                                 @foreach($status->replies as $reply)
                                     <div class="media d-flex p-3 border">
                                         <a class="mr-3" href="{{route('profile.index', ['username'=>$reply->user->username])}}">
@@ -75,6 +78,7 @@
                                                 <li class="list-inline-item">
                                                     {{$reply->created_at->diffForHumans()}}
                                                 </li>
+                                                {{--Ставим лайки--}}
                                                 @if($reply->user->id !== Auth::user()->id)
                                                     <li class="list-inline-item" data-bs-placement="top" title="Like">
                                                         <a href="{{route('status.like', ['statusId'=>$reply->id])}}">
@@ -92,7 +96,7 @@
                                     </div>
                                 @endforeach
                             </div>
-
+                            {{--Оставляем комментарий--}}
                             <form method="post"
                                   action="{{route('status.reply', ['statusId' => $status->id])}}"
                                   class="mb-4">
@@ -112,6 +116,7 @@
                         </div>
                     </div>
                 @endforeach
+                {{--Пагинация 10 записей на странице--}}
                 {{$statuses->links()}}
             @endif
         </div>

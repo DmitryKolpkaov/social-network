@@ -1,5 +1,5 @@
 @extends('templates.default')
-
+{{--Обновить профиль, добавить новые значения не указываемые при регистрации--}}
 @section('content')
     <div class="row">
         <div class="col-lg-6 mx-auto">

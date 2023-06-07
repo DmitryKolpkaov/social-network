@@ -1,5 +1,5 @@
 @extends('templates.default')
-
+{{--Авторизация--}}
 @section('content')
     <div class="row">
         <div class="col-lg-4 mx-auto">

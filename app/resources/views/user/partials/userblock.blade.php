@@ -1,3 +1,4 @@
+{{--Профиль пользователя, его аватар, имя и локация--}}
 <div class="media">
     <div class="media-body">
         <a href="{{route('profile.index', ['username'=>$user->username])}}">

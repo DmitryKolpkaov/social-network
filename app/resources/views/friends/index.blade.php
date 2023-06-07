@@ -1,5 +1,5 @@
 @extends('templates.default')
-
+{{--Список друзей--}}
 @section('content')
     <div class="row">
         <div class="col-lg-6 mx-auto">

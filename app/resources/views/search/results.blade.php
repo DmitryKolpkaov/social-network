@@ -1,5 +1,5 @@
 @extends('templates.default')
-
+{{--Поиск пользователей--}}
 @section('content')
     <div class="row">
         <div class="">
