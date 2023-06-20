@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Status;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Mockery\Exception;
 
 class ProfileController extends Controller
 {
@@ -38,13 +40,13 @@ class ProfileController extends Controller
     {
         $this->validate($request, [
             'first_name'=> 'alpha|max:50',
-            'last_name'=> 'alpha|max:50',
+            'last_name'=> 'alpha|sometimes|nullable|max:50',
             'location'=> 'max:50'
         ]);
 
         Auth::user()->update([
             'first_name'=> $request->input('first_name'),
-            'last_name'=> $request->input('last_name'),
+            'last_name'=> $request->input('last_name') ? $request->input('last_name') : '',
             'location'=> $request->input('location') ? $request->input('location') : ''
         ]);
 
@@ -53,6 +55,13 @@ class ProfileController extends Controller
             ->with('info', 'Обновление прошло успешно!');
     }
 
+    /**
+     * Загружаем avatar
+     *
+     * @param Request $request
+     * @param $username
+     * @return RedirectResponse
+     */
     public function postUploadAvatar(Request $request, $username)
     {
         $user = User::where('username', $username)->first();
@@ -68,9 +77,18 @@ class ProfileController extends Controller
             $avatar = $request->file('avatar');
             $filename = time() . '.' . $avatar->getClientOriginalExtension();
 
-            #Сохраняется avatar на сервере
-//            Image::make($request->file('avatar'))->resize(300, 300)
-//                ->save(public_path($user->getAvatarsPath($user->id)).$filename);
+            #Типы загружаемых avatar
+            if (!in_array($avatar->getMimeType(),[
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+                'image/webp'
+            ])){
+                throw new Exception('File type is\'t allowed');
+            }
+
+
+            copy($avatar->getPath().'/'.$avatar->getFilename(), public_path($user->getAvatarsPath($user->id)).$filename);
 
             #Заносим avatar в бд
             $user = Auth::user();

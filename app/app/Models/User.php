@@ -115,6 +115,12 @@ class User extends Authenticatable
         return "/$path/";
     }
 
+    /**
+     * Чистим путь
+     *
+     * @param $user_id
+     * @return void
+     */
     public function clearAvatars($user_id)
     {
         $path = "uploads/avatars/id{$user_id}";

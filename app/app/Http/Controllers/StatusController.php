@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 
 class StatusController extends Controller
 {
@@ -71,6 +72,27 @@ class StatusController extends Controller
         $status->likes()->create([
            'user_id' => Auth::user()->id
         ]);
+
+        return redirect()->back();
+    }
+
+    public function deleteStatus($statusId)
+    {
+        if(!$statusId){
+            throw new Exception('status_id is not correct');
+        }
+
+        Status::find($statusId)->delete();
+
+        return redirect()->back();
+    }
+
+    public function deleteReply($statusId)
+    {
+        if(!$statusId){
+            throw new Exception('status_id is not correct');
+        }
+        Status::find($statusId)->delete();
 
         return redirect()->back();
     }

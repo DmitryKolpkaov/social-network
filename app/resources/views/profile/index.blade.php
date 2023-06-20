@@ -52,6 +52,15 @@
                                         {{$status->likes()->count()}} {{Str::plural('like', $status->likes()->count())}}
                                     </li>
                                 </ul>
+
+                                {{--Удаление записи--}}
+                                @if($status->user->id === Auth::user()->id)
+                                    <a class="btn btn-primary mb-3"
+                                       href="{{route('status.delete', ['statusId'=> $status->id])}}">
+                                        Delete
+                                    </a>
+                                @endif
+
                                 <div class="mb-3 ml-10">
                                     {{--Перебор комментариев--}}
                                     @foreach($status->replies as $reply)
@@ -89,11 +98,15 @@
                                                         {{$reply->likes()->count()}} {{Str::plural('like', $reply->likes()->count())}}
                                                     </li>
                                                 </ul>
-                                                {{--                                                @if(Auth::user()->id === $status->user->id)--}}
-                                                {{--                                                    <a href="{{route('status.edit')}}">--}}
-                                                {{--                                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Редактировать комментарий</button>--}}
-                                                {{--                                                    </a>--}}
-                                                {{--                                                @endif--}}
+
+                                                {{--Удаление комментария--}}
+                                                @if($reply->user->id === Auth::user()->id)
+                                                    <a class="btn btn-primary"
+                                                       href="{{route('reply.delete', ['statusId'=> $reply->id])}}">
+                                                        Delete
+                                                    </a>
+                                                @endif
+
                                             </div>
                                         </div>
                                     @endforeach
