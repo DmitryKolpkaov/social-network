@@ -6,6 +6,15 @@
             <div class="mt-5">
                 @include('user.partials.userblock')
                 <hr>
+                @if(Auth::user()->id === $user->id)
+                    <form action="{{route('upload-avatar', ['username' => Auth::user()->username])}}" enctype="multipart/form-data" method="post" class="my-2">
+                        @csrf
+                        <label for="avatar" class="mb-1">Загрузить аватар</label>
+                        <input type="file" name="avatar" id="avatar" class="d-block mb-3">
+                        <input type="submit" value="Загрузить" class="btn btn-primary">
+                    </form>
+                    <hr>
+                @endif
                 {{--Если не создал запись на стене, она не отобразится--}}
                 @if(!$statuses->count())
                     <p>У {{$user->getFirstNameOrUsername()}} ничего не опубликовано</p>
@@ -14,9 +23,7 @@
                     @foreach($statuses as $status)
                         <div class="media">
                             <a class="mr-3" href="{{route('profile.index', ['username'=>$status->user->username])}}">
-                                <img class="media-object rounded"
-                                     src="{{$status->user->getAvatarUrl()}}"
-                                     alt="{{$status->user->getNameOrUsername()}}">
+                                @include('user.partials.avatar')
                             </a>
                             <div class="media-body">
                                 <h4>
@@ -32,8 +39,11 @@
                                     @if($status->user->id !== Auth::user()->id)
                                         <li class="list-inline-item" data-bs-placement="top" title="Like">
                                             <a href="{{route('status.like', ['statusId'=>$status->id])}}">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
-                                                    <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-chat-heart-fill"
+                                                     viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
                                                 </svg>
                                             </a>
                                         </li>
@@ -45,11 +55,10 @@
                                 <div class="mb-3 ml-10">
                                     {{--Перебор комментариев--}}
                                     @foreach($status->replies as $reply)
-                                        <div class="media d-flex p-3 border">
-                                            <a class="mr-3" href="{{route('profile.index', ['username'=>$reply->user->username])}}">
-                                                <img class="media-object rounded"
-                                                     src="{{$reply->user->getAvatarUrl()}}"
-                                                     alt="{{$reply->user->getNameOrUsername()}}">
+                                        <div class="media d-block p-3 border">
+                                            <a class="mr-3"
+                                               href="{{route('profile.index', ['username'=>$reply->user->username])}}">
+                                                @include('user.partials.avatar-reply')
                                             </a>
                                             <div class="media-body pl-10">
                                                 <h4>
@@ -64,10 +73,14 @@
                                                     </li>
                                                     {{--Ставим лайки--}}
                                                     @if($reply->user->id !== Auth::user()->id)
-                                                        <li class="list-inline-item" data-bs-placement="top" title="Like">
+                                                        <li class="list-inline-item" data-bs-placement="top"
+                                                            title="Like">
                                                             <a href="{{route('status.like', ['statusId'=>$reply->id])}}">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
-                                                                    <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor"
+                                                                     class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
                                                                 </svg>
                                                             </a>
                                                         </li>
@@ -76,11 +89,11 @@
                                                         {{$reply->likes()->count()}} {{Str::plural('like', $reply->likes()->count())}}
                                                     </li>
                                                 </ul>
-{{--                                                @if(Auth::user()->id === $status->user->id)--}}
-{{--                                                    <a href="{{route('status.edit')}}">--}}
-{{--                                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Редактировать комментарий</button>--}}
-{{--                                                    </a>--}}
-{{--                                                @endif--}}
+                                                {{--                                                @if(Auth::user()->id === $status->user->id)--}}
+                                                {{--                                                    <a href="{{route('status.edit')}}">--}}
+                                                {{--                                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Редактировать комментарий</button>--}}
+                                                {{--                                                    </a>--}}
+                                                {{--                                                @endif--}}
                                             </div>
                                         </div>
                                     @endforeach
@@ -101,7 +114,8 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Прокомментировать</button>
+                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Прокомментировать
+                                        </button>
                                     </form>
                                 @endif
                             </div>

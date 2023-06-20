@@ -6,6 +6,7 @@ use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -50,5 +51,34 @@ class ProfileController extends Controller
         return redirect()
             ->route('profile.edit')
             ->with('info', 'Обновление прошло успешно!');
+    }
+
+    public function postUploadAvatar(Request $request, $username)
+    {
+        $user = User::where('username', $username)->first();
+
+        if(!Auth::user()->id === $user->id){
+            return redirect()->route('home');
+        }
+
+        if($request->hasFile('avatar')){
+
+            $user->clearAvatars($user->id);
+
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+
+            #Сохраняется avatar на сервере
+//            Image::make($request->file('avatar'))->resize(300, 300)
+//                ->save(public_path($user->getAvatarsPath($user->id)).$filename);
+
+            #Заносим avatar в бд
+            $user = Auth::user();
+            $user->avatar = $filename;
+            $user->save();
+
+        }
+        return redirect()->back();
+
     }
 }

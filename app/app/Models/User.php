@@ -99,6 +99,32 @@ class User extends Authenticatable
     }
 
     /**
+     * Создаем путь, для хранения avatar
+     *
+     * @param $user_id
+     * @return string
+     */
+    public function getAvatarsPath($user_id)
+    {
+        $path = "uploads/avatars/id{$user_id}";
+
+        if(!file_exists($path)){
+            mkdir($path,0777, true);
+        }
+
+        return "/$path/";
+    }
+
+    public function clearAvatars($user_id)
+    {
+        $path = "uploads/avatars/id{$user_id}";
+
+        if(file_exists(public_path("/$path"))){
+            foreach(glob(public_path("/$path/*")) as $avatar) unlink($avatar);
+        }
+    }
+
+    /**
      * Пользователю пренадлежит статус
      *
      * @return HasMany

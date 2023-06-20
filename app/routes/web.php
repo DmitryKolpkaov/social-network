@@ -33,6 +33,7 @@ Route::get('/search', 'App\Http\Controllers\SearchController@getResults')->name(
 Route::get('/user/{username}', 'App\Http\Controllers\ProfileController@getProfile')->name('profile.index');
 Route::get('/profile/edit}', 'App\Http\Controllers\ProfileController@getEdit')->middleware('auth')->name('profile.edit');
 Route::post('/profile/edit}', 'App\Http\Controllers\ProfileController@postEdit')->middleware('auth')->name('profile.edit');
+Route::post('/upload-avatar/{username}', 'App\Http\Controllers\ProfileController@postUploadAvatar')->middleware('auth')->name('upload-avatar');
 
 //Друзья
 Route::get('/friends', 'App\Http\Controllers\FriendController@getIndex')->middleware('auth')->name('friend.index');

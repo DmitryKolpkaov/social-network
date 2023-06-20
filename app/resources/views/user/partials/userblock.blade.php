@@ -2,7 +2,11 @@
 <div class="media">
     <div class="media-body">
         <a href="{{route('profile.index', ['username'=>$user->username])}}">
-            <img class="" src="{{$user->getAvatarUrl()}}" alt="ava">
+            @if(!$user->avatar)
+                <img class="media-object radius-50 w-25" src="{{$user->getAvatarUrl()}}" alt="ava">
+            @else
+                <img class="media-object radius-50 w-25" src="{{$user->getAvatarsPath($user->id). $user->avatar}}" alt="ava">
+            @endif
         </a>
         <h5 class="mt-0 mb-3">
             <a href="{{route('profile.index', ['username'=>$user->username])}}">{{$user->getNameOrUsername()}}</a>

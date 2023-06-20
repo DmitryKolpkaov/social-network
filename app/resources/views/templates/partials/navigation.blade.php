@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container">
         <a class="navbar-brand" href="{{route('home')}}">Social</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" style="flex-grow: 0!important;">
@@ -15,7 +16,8 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search" method="get" action="{{route('search.results')}}">
-                    <input name="query" class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Search">
+                    <input name="query" class="form-control me-2" type="search" placeholder="Поиск..."
+                           aria-label="Search">
                     <button class="btn btn-success" type="submit">Найти</button>
                 </form>
             @endif
@@ -23,7 +25,9 @@
                 @if(Auth::check())
                     <li class="nav-item">
                         <a href="{{route('profile.index', ['username'=> Auth::user()->username])}}"
-                           class="nav-link">{{Auth::user()->getNameOrUsername()}}</a>
+                           class="nav-link">
+                            {{Auth::user()->getNameOrUsername()}}
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('profile.edit')}}" class="nav-link">Обновить профиль</a>

@@ -9,3 +9,11 @@
 .ml-10{
     margin-left: 10px !important;
 }
+
+.radius-50{
+    border-radius: 50px !important;
+}
+
+.w-10{
+    width: 10% !important;
+}

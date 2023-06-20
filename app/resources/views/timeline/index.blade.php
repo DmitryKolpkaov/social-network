@@ -29,9 +29,7 @@
                 @foreach($statuses as $status)
                     <div class="media">
                         <a class="mr-3" href="{{route('profile.index', ['username'=>$status->user->username])}}">
-                            <img class="media-object rounded"
-                                 src="{{$status->user->getAvatarUrl()}}"
-                                 alt="{{$status->user->getNameOrUsername()}}">
+                            @include('user.partials.avatar')
                         </a>
                         <div class="media-body">
                             <h4>
@@ -61,11 +59,9 @@
                             <div class="mb-3 ml-10">
                                 {{--Перебор комментариев--}}
                                 @foreach($status->replies as $reply)
-                                    <div class="media d-flex p-3 border">
+                                    <div class="media d-block p-3 border">
                                         <a class="mr-3" href="{{route('profile.index', ['username'=>$reply->user->username])}}">
-                                            <img class="media-object rounded"
-                                                 src="{{$reply->user->getAvatarUrl()}}"
-                                                 alt="{{$reply->user->getNameOrUsername()}}">
+                                            @include('user.partials.avatar-reply')
                                         </a>
                                         <div class="media-body pl-10">
                                             <h4>
