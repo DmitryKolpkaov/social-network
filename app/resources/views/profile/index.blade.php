@@ -4,7 +4,22 @@
     <div class="row">
         <div class="col-lg-5">
             <div class="mt-5">
-                @include('user.partials.userblock')
+
+                {{--Фото пользователя--}}
+                <a href="{{route('profile.index', ['username'=>$user->username])}}">
+                    @if(!$user->avatar)
+                        <img class="media-object radius-50 w-75" src="{{$user->getAvatarUrl()}}" alt="ava">
+                    @else
+                        <img class="media-object radius-50 w-75" src="{{$user->getAvatarsPath($user->id). $user->avatar}}" alt="ava">
+                    @endif
+                </a>
+                <h5 class="mt-0 mb-3">
+                    <a href="{{route('profile.index', ['username'=>$user->username])}}">{{$user->getNameOrUsername()}}</a>
+                </h5>
+                @if($user->location)
+                    <p class="mt-0 h6"><span class="h5">Локация: </span>{{$user->location}}</p>
+                @endif
+
                 <hr>
                 @if(Auth::user()->id === $user->id)
                     <form action="{{route('upload-avatar', ['username' => Auth::user()->username])}}" enctype="multipart/form-data" method="post" class="my-2">
